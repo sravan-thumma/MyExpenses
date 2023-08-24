@@ -1,20 +1,42 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
+} from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
+import LoginScreen from './src/login/login';
+import { Image } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './src/home/home';
+import DrawerScreen from './src/drawer';
 
-export default function App() {
+
+
+
+function HomeTabs() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Tab.Navigator>
+      {/* Define your tab screens here */}
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Home1" component={Home} />
+      <Tab.Screen name="Home2" component={Home} />
+      <Tab.Screen name="Home3" component={Home} />
+      {/* ... Other tab screens */}
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+
+export default function App() {
+  const Tab = createBottomTabNavigator();
+  return (
+    <NavigationContainer>
+      <DrawerScreen/>
+    </NavigationContainer>
+  );
+}
