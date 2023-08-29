@@ -16,7 +16,8 @@ import { CommonActions } from '@react-navigation/native';
 import Svg, { Path } from 'react-native-svg';
 import Drawerstyles from "./drawerstyles";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import { useAuth } from "./AuthGuard/AuthContext";
+import AuthenticatedScreenHOC from "./AuthGuard/AuthenticatedScreenHOC";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -85,26 +86,27 @@ const HomeStack = () => (
   );
 
 function CustomDrawerContent(props) {
-    const navigation = useNavigation();
-
+  const { logout } = useAuth();
+  const { isLoggedIn } = useAuth();
   const handleLogout = async () => {
-    await AsyncStorage.setItem('isLoggedIn', 'false');
-    await AsyncStorage.removeItem('userData')
+    console.log(isLoggedIn);
+    if(isLoggedIn){
     Alert.alert(
         'Confirm Logout',
         'Are you Sure you want to Logout?',
         [
           { text: 'No', style: 'cancel' },
-          { text: 'Yes', onPress: () => 
-            navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{ name: 'Login' }],
-            })
-          )},
+          { text: 'Yes', onPress: async() =>{
+            logout();
+            await AsyncStorage.removeItem('userid');
+            await AsyncStorage.removeItem('isLoggedIn');
+            }
+          },
         ],
         { cancelable: false }
       );
+    }else{
+    }
       props.navigation.closeDrawer();
   };
   return (
@@ -120,7 +122,7 @@ function CustomDrawerContent(props) {
       <DrawerItemList {...props} />
       <DrawerItem label="Help" onPress={() => alert("Link to help")} />
       <DrawerItem
-        label="Logout"
+        label={isLoggedIn ? "Logout":"Login"}
         onPress={() => handleLogout()}
       />
     </DrawerContentScrollView>
@@ -130,7 +132,7 @@ function CustomDrawerContent(props) {
 
 export default function DrawerScreen() {
   return (
-    <Drawer.Navigator initialRouteName="Drawer"
+    <Drawer.Navigator initialRouteName="Drawer" detachInactiveScreens={false}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
         <Drawer.Screen

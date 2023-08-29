@@ -13,8 +13,8 @@ import { Image } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/home/home';
 import DrawerScreen from './src/drawer';
-
-
+import { AuthProvider } from './src/AuthGuard/AuthContext';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 function HomeTabs() {
@@ -35,8 +35,12 @@ function HomeTabs() {
 export default function App() {
   const Tab = createBottomTabNavigator();
   return (
-    <NavigationContainer>
-      <DrawerScreen/>
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <NavigationContainer>
+          <DrawerScreen/>
+        </NavigationContainer>
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }
