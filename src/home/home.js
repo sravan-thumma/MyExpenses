@@ -14,17 +14,20 @@ import axios from 'axios';
 
 function HomeScreen() {
   const [userId, setUserId] = useState('');
+  const [username,setUsername]=useState('');
   const [transactions,setTransactions]=useState('');
   React.useEffect(() => {
-    getuserid();
+    getuserDetails();
     getUserTransactions();
     const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
     return () => backHandler.remove();
   }, []);
 
-  const getuserid = async()=>{
+  const getuserDetails = async()=>{
     const userid=await AsyncStorage.getItem('userid');
+    const username=await AsyncStorage.getItem('userName');
     setUserId(userid);
+    setUsername(username);
   }
   const getUserTransactions=async()=>{
     const userid=await AsyncStorage.getItem('userid');
@@ -69,49 +72,22 @@ function HomeScreen() {
           { cancelable: false }
         );
         return true; // Prevent default back action
-      };
+      }; 
       
-      const renderItem = ({ item }) => (
-        <View style={styles.row}>
-          <View style={styles.cell}>
-            <Text>{item.id}</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text>{item.date}</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text>{item.repayDate}</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text>{item.description}</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text>{item.debitCard}</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text>{item.creditCard}</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text>{item.borrowedFromMe}</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text>{item.borrowedByMe}</Text>
-          </View>
-          <View style={styles.cell}>
-            <Text>{item.status}</Text>
-          </View>
-        </View>
-      );
-      
+      const handleCellPress=(traid)=>{
+        Alert.alert("Success",traid);
+      }
 
-      const columnname=['id','date','description','repayDate','debitCard','creditCard','borrowedFromMe','borrowedByMe','status']
+      const indexcolumns=['id','date','description','repayDate','debitCard','creditCard','borrowedFromMe','borrowedByMe','status']
+      const columnnames=['Id','Date','Description','RepayDate','DebitCard','CreditCard','Borrowed From Me','Borrowed By Me','Status']
+      
       return (
       <View style={styles.container}>
         <Text>Welcome to the Home Screen</Text>
-        {userId && <Text>User ID: {userId}</Text>}
+        {userId && <Text>User : {username}</Text>}
         {transactions ? (
           <ScrollView horizontal>
-            <TableView jsonData={transactions} columns={columnname} />
+            <TableView jsonData={transactions} indexcolumns={indexcolumns} columns={columnnames} onCellPress={(value) => handleCellPress(value)}/>
         </ScrollView>
       ) : (
         <Text>Loading...</Text>

@@ -53,6 +53,8 @@ export default function LoginScreen(){
         if (data.id>0){
             console.log(data);
             await AsyncStorage.setItem('userid', String(data.id));
+            await AsyncStorage.setItem('userName',data.username);
+            await AsyncStorage.setItem('role',data.role);
             Alert.alert("Success", "Authentication successful!");
             login();
             AsyncStorage.setItem('isLoggedIn', 'true');
