@@ -18,6 +18,7 @@ import Drawerstyles from "./drawerstyles";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useAuth } from "./AuthGuard/AuthContext";
 import AuthenticatedScreenHOC from "./AuthGuard/AuthenticatedScreenHOC";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -43,12 +44,12 @@ const CustomHeader = () => {
 
       <View style={Drawerstyles.headerContainer}>
         <TouchableOpacity onPress={openDrawer}>
-          <Image source={require("../assets/menu-icon.png")} style={{ width: 80, height: 80 }}></Image>
+          <Image source={require("../assets/menu-icon.png")} style={{ marginTop:responsiveWidth(3), width: responsiveWidth(15), height: responsiveWidth(10) }}></Image>
         </TouchableOpacity>
       </View>
       <Image
         source={require("../assets/favicon.png")} // Replace with the actual image path
-        style={{ width: 80, height: 80 }}
+        style={{ width: responsiveWidth(20), height: responsiveWidth(20) }}
       />
     </View>
   );
@@ -111,13 +112,13 @@ function CustomDrawerContent(props) {
   };
   return (
     <DrawerContentScrollView {...props}>
-      <View style={{ padding: 20 }}>
+      <View style={{ padding: responsiveWidth(10) }}>
         {/* Place your logo or text here */}
         <Image
           source={require("../assets/favicon.png")}
-          style={{ width: 80, height: 80 }}
+          style={{ width: responsiveWidth(20), height: responsiveWidth(20) }}
         />
-        <Text>Home Network</Text>
+        <Text style={{ fontSize: responsiveFontSize(2.5)}}>Home Network</Text>
       </View>
       <DrawerItemList {...props} />
       <DrawerItem label="Help" onPress={() => alert("Link to help")} />

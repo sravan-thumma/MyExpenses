@@ -83,8 +83,8 @@ function HomeScreen() {
       
       return (
       <View style={styles.container}>
-        <Text>Welcome to the Home Screen</Text>
-        {userId && <Text>User : {username}</Text>}
+        <Text style={styles.text}>Welcome to the Home Screen</Text>
+        {userId && <Text style={styles.text}>User : {username}</Text>}
         {transactions ? (
           <ScrollView horizontal>
             <TableView jsonData={transactions} indexcolumns={indexcolumns} columns={columnnames} onCellPress={(value) => handleCellPress(value)}/>
