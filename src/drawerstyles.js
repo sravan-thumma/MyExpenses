@@ -14,13 +14,13 @@ const Drawerstyles = StyleSheet.create({
   headerContainerMain: {
     flex:1,
     alignItems: "center",
-    marginTop: responsiveHeight(3),
+    marginTop: responsiveHeight(0),
     backgroundColor: "white",
     paddingBottom:responsiveHeight(11),
-    paddingTop:responsiveHeight(1),
+    paddingTop:responsiveHeight(0),
     //borderBottomLeftRadius: -40,
     borderBottomRightRadius: responsiveWidth(15),
-    top: responsiveHeight(3),
+    top: responsiveHeight(0),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

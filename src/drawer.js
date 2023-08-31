@@ -19,6 +19,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useAuth } from "./AuthGuard/AuthContext";
 import AuthenticatedScreenHOC from "./AuthGuard/AuthenticatedScreenHOC";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import ViewTransaction from "./TransactionOperations/ViewTransaction";
+import UpdateTransaction from "./TransactionOperations/UpdateTransaction";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -80,9 +82,11 @@ function Logout() {
 }
 
 const HomeStack = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false,headerLeft: () => null}}>
+    <Stack.Navigator screenOptions={{ headerShown: false}}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerLeft: null }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerLeft: null }} />
+          <Stack.Screen name="ViewTransaction" component={ViewTransaction} options={{headerShown:true}}  />
+          <Stack.Screen name="UpdateTransaction" component={UpdateTransaction} options={{headerShown:true}} />
     </Stack.Navigator>
   );
 
@@ -90,7 +94,7 @@ function CustomDrawerContent(props) {
   const { logout } = useAuth();
   const { isLoggedIn } = useAuth();
   const handleLogout = async () => {
-    console.log(isLoggedIn);
+    //console.log(isLoggedIn);
     if(isLoggedIn){
     Alert.alert(
         'Confirm Logout',
@@ -147,3 +151,7 @@ export default function DrawerScreen() {
     </Drawer.Navigator>
   );
 }
+
+//options={{title:'Home',
+//header: () => <CustomHeader/>,
+//}}

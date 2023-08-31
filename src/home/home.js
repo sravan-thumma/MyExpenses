@@ -1,7 +1,7 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState,useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { Alert, StyleSheet, Text, View ,BackHandler} from 'react-native';
+import { useNavigation,useRoute } from '@react-navigation/native';
+import { Alert, StyleSheet, Text, View ,BackHandler, Animated, Easing} from 'react-native';
 import { Image } from "react-native";
 import styles from "./style";
 import { axiosConfig,API_URL_TRANSACTIONS } from '../apiconfig';
@@ -9,19 +9,27 @@ import AuthenticatedScreenHOC from '../AuthGuard/AuthenticatedScreenHOC';
 import { ScrollView,FlatList } from 'react-native';
 import TableView from './TableView';
 import axios from 'axios';
-
+import CommonHeader from './CommonHeader';
 
 
 function HomeScreen() {
   const [userId, setUserId] = useState('');
   const [username,setUsername]=useState('');
   const [transactions,setTransactions]=useState('');
+  const [refreshing, setRefreshing] = useState(false);
+  const route = useRoute(); 
+  const navigation=useNavigation();
+  var refresh  = route.params;
   React.useEffect(() => {
     getuserDetails();
     getUserTransactions();
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => backHandler.remove();
-  }, []);
+    if (refresh) {
+      //getUserTransactions();
+      console.log('HomeScreen is refreshed');
+    }
+    //const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    //return () => backHandler.remove();
+  }, [refresh]);
 
   const getuserDetails = async()=>{
     const userid=await AsyncStorage.getItem('userid');
@@ -61,33 +69,47 @@ function HomeScreen() {
     }
   }
   }
+
   const handleBackPress = () => {
         Alert.alert(
           'Confirm Exit',
           'Do you want to exit the app?',
           [
             { text: 'No', style: 'cancel' },
-            { text: 'Yes', onPress: () => BackHandler.exitApp() },
+            { text: 'Yes', onPress: () =>{ BackHandler.exitApp()} },
           ],
           { cancelable: false }
         );
         return true; // Prevent default back action
       }; 
+
+
       
       const handleCellPress=(traid)=>{
-        Alert.alert("Success",traid);
+        //Alert.alert("Success",traid);
+        navigation.navigate("ViewTransaction",{ traid });
+        console.log(traid);
       }
 
+      const onRefresh = () => {
+        setRefreshing(true);
+        getUserTransactions();
+        setRefreshing(false);
+      };
+
+      
+      
       const indexcolumns=['id','date','description','repayDate','debitCard','creditCard','borrowedFromMe','borrowedByMe','status']
       const columnnames=['Id','Date','Description','RepayDate','DebitCard','CreditCard','Borrowed From Me','Borrowed By Me','Status']
       
       return (
       <View style={styles.container}>
+        <CommonHeader onRefresh={onRefresh} />
         <Text style={styles.text}>Welcome to the Home Screen</Text>
         {userId && <Text style={styles.text}>User : {username}</Text>}
         {transactions ? (
           <ScrollView horizontal>
-            <TableView jsonData={transactions} indexcolumns={indexcolumns} columns={columnnames} onCellPress={(value) => handleCellPress(value)}/>
+            <TableView jsonData={transactions} indexcolumns={indexcolumns} columns={columnnames} onCellPress={handleCellPress}/>
         </ScrollView>
       ) : (
         <Text>Loading...</Text>
