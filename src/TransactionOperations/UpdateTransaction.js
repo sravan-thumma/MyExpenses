@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { Alert, StyleSheet, Text,TextInput, View ,Button,BackHandler, ActivityIndicator,TouchableWithoutFeedback,TouchableOpacity,ScrollView } from 'react-native';
 import { Image } from "react-native";
-import { API_URL_TRANSACTIONS, axiosConfig } from '../apiconfig';
+import { API_URL_TRANSACTIONS, axiosConfig ,API_HEADERS} from '../apiconfig';
 import AuthenticatedScreenHOC from '../AuthGuard/AuthenticatedScreenHOC';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
@@ -27,26 +27,34 @@ function UpdateTransaction(){
     const [repayDate, setRepayDate] = useState(initialDate.toISOString().split('T')[0]);
 
     const handleUpdateSubmit = async () => {
-        try {
-            const response = await axios.put(API_URL_TRANSACTIONS+`/${transactionData.id}`,updatedData,axiosConfig);
-            const data = await response.data;
-            if (data){
-                setTransaction(data);
-                navigation.navigate("Home",{ refresh: true });
-            }else{
-                Alert.alert("Error", data.message);
-            }
-          }catch(error){
-              if (error.response) {
-              Alert.alert('Error', 'Server responded with an error.');
-              } else if (error.request) {
-              console.error('Request:', error.request);
-              Alert.alert('Error', 'No response received from the server.');
-              } else {
-              console.error('Error:', error.message);
-              Alert.alert('Error', 'An error occurred while making the request.');
-              }
-          }
+      const options = {
+        method: 'PUT',
+        url: API_URL_TRANSACTIONS+`/${transactionData.id}`,
+        headers: API_HEADERS,
+        data: updatedData
+      };
+      console.log(updatedData);
+      await axios.request(options).then(function (response) {
+        const data = response.data;
+        if (data){
+          setTransaction(data);
+          navigation.navigate("Home",{ refresh: true });
+      }else{
+          console.log("Data:"+data);
+          Alert.alert("Error", data.message);
+      }
+      }).catch(function (error) {
+        if (error.response) {
+          console.log(error);
+        Alert.alert('Error', 'Server responded with an error.');
+        } else if (error.request) {
+        console.error('Request:', error.request);
+        Alert.alert('Error', 'No response received from the server.');
+        } else {
+        console.error('Error:', error.message);
+        Alert.alert('Error', 'An error occurred while making the request.');
+        }
+      });
     }
 
       const showMode = (currentMode) => {

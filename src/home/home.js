@@ -38,8 +38,9 @@ function HomeScreen() {
     setModalVisible(!isModalVisible);
   };
 
-  const handleButtonPress = () => {
-    Alert.alert("Success","Create");
+  const handleCreateButton = async() => {
+    const userid=await AsyncStorage.getItem('userid');
+    navigation.navigate("CreateTransaction",{ userid });
   };
 
   const getuserDetails = async()=>{
@@ -142,7 +143,7 @@ function HomeScreen() {
             <TouchableOpacity onPress={onRefresh} style={styles.floatingRefreshButton}>
               <Icon name="refresh" size={20} color="white"/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleButtonPress} style={styles.floatingPlusButton}>
+            <TouchableOpacity onPress={handleCreateButton} style={styles.floatingPlusButton}>
                 <Icon name="plus" size={20} color="white" />
             </TouchableOpacity>
 

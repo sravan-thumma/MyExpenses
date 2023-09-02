@@ -1,9 +1,9 @@
 import React, { useEffect,useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import { Alert, StyleSheet, Text,TextInput, View ,Button,BackHandler, ActivityIndicator,TouchableWithoutFeedback,TouchableOpacity,ScrollView } from 'react-native';
 import { Image } from "react-native";
-import { API_URL_TRANSACTIONS, axiosConfig } from '../apiconfig';
+import { API_URL_TRANSACTIONS,API_HEADERS, axiosConfig,Post_Transaction } from '../apiconfig';
 import AuthenticatedScreenHOC from '../AuthGuard/AuthenticatedScreenHOC';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
@@ -11,41 +11,54 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
-function CreateTransaction(){
-        const route = useRoute();
-        var  transactionData  = route.params.transactionData;
-        console.log(transactionData);
-        const [transaction, setTransaction] = useState(null);
+function CreateTransaction (){
+        const route=useRoute();
+        var  userid  = route.params.userid;
+        const [userId,setUserId] = useState(userid);
+        const [transaction, setTransaction] = useState(Post_Transaction(userid));
         const navigation=useNavigation();
-        const [updatedData, setUpdatedData] = useState(transactionData);
+        const [updatedData, setUpdatedData] = useState(transaction);
         const [selectedStatus, setSelectedStatus] = useState(updatedData.status);
-        const initialDate = new Date(updatedData.repayDate);
+        const initialDate = new Date();
         const [date, setDate] = useState(initialDate);
         const [displaymode, setMode] = useState('date');
         const [isDisplayDate, setShow] = useState(false);
-        const [repayDate, setRepayDate] = useState(initialDate.toISOString().split('T')[0]);
-    
-        const handleUpdateSubmit = async () => {
-            try {
-                const response = await axios.put(API_URL_TRANSACTIONS+`/${transactionData.id}`,updatedData,axiosConfig);
-                const data = await response.data;
-                if (data){
-                    setTransaction(data);
-                    navigation.navigate("Home",{ refresh: true });
-                }else{
-                    Alert.alert("Error", data.message);
-                }
-              }catch(error){
-                  if (error.response) {
-                  Alert.alert('Error', 'Server responded with an error.');
-                  } else if (error.request) {
-                  console.error('Request:', error.request);
-                  Alert.alert('Error', 'No response received from the server.');
-                  } else {
-                  console.error('Error:', error.message);
-                  Alert.alert('Error', 'An error occurred while making the request.');
-                  }
-              }
+        const [TDate, setTDate] = useState(initialDate.toISOString().split('T')[0]);
+
+        const getuserDetails = async()=>{
+            setUpdatedData({ ...updatedData, userId: 1 });
+            console.log(updatedData.userId);
+        }
+
+        const handleCreateSubmit = async () => {
+          const options = {
+            method: 'POST',
+            url: API_URL_TRANSACTIONS,
+            headers: API_HEADERS,
+            data: updatedData
+          };
+          console.log(updatedData);
+          await axios.request(options).then(function (response) {
+            const data = response.data;
+            if (data){
+              setTransaction(data);
+              navigation.navigate("Home",{ refresh: true });
+          }else{
+              console.log("Data:"+data);
+              Alert.alert("Error", data.message);
+          }
+          }).catch(function (error) {
+            if (error.response) {
+              console.log(error);
+            Alert.alert('Error', 'Server responded with an error.');
+            } else if (error.request) {
+            console.error('Request:', error.request);
+            Alert.alert('Error', 'No response received from the server.');
+            } else {
+            console.error('Error:', error.message);
+            Alert.alert('Error', 'An error occurred while making the request.');
+            }
+          });
         }
     
           const showMode = (currentMode) => {
@@ -58,9 +71,9 @@ function CreateTransaction(){
           };
         
           const clearDate = () => {
-            setRepayDate('');
+            setTDate('');
             setDate(initialDate);
-            setUpdatedData({ ...updatedData, repayDate: null })
+            setUpdatedData({ ...updatedData, date: null })
           };
     
           const changeSelectedDate = (event, selectedDate) => {
@@ -69,9 +82,9 @@ function CreateTransaction(){
               const currentDate = selectedDate || date;
               const formattedDate = currentDate.toISOString().split('T')[0]; // Format the date as "YYYY-MM-DD"
               setDate(currentDate);
-              setRepayDate(formattedDate.toString());
+              setTDate(formattedDate.toString());
               console.log(formattedDate.toString());
-              setUpdatedData({ ...updatedData, repayDate: formattedDate.toString() })
+              setUpdatedData({ ...updatedData, date: formattedDate.toString() })
             }
           };
     
@@ -86,7 +99,7 @@ function CreateTransaction(){
                     value={updatedData.description}
                     onChangeText={(text) => setUpdatedData({ ...updatedData, description: text })}
                 />
-                <Text style={styles.label}>RepayDate:</Text>
+                <Text style={styles.label}>Date:</Text>
                 <View style={{
                   flex:1,
                   flexDirection: "row",
@@ -94,8 +107,8 @@ function CreateTransaction(){
                 }}>
                   <TextInput
                         style={styles.textInputCalander}
-                        value={repayDate.toString()}
-                        placeholder="Select RepayDate"
+                        value={TDate.toString()}
+                        placeholder="Select Date"
                         editable={false}
                     />
             
@@ -162,9 +175,9 @@ function CreateTransaction(){
                 </Picker>
                 
                 <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.Updatebutton} onPress={handleUpdateSubmit}>
+                        <TouchableOpacity style={styles.Updatebutton} onPress={handleCreateSubmit}>
                             <Icon name="check" size={20} color="white" />
-                            <Text style={styles.buttonText}>Update</Text>
+                            <Text style={styles.buttonText}>Create</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

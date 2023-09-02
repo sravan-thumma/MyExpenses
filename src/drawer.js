@@ -52,7 +52,7 @@ const CustomHeader = () => {
       </View>
       <Image
         source={require("../assets/781831.png")} // Replace with the actual image path
-        style={{ width: responsiveWidth(20), height: responsiveWidth(20) }}
+        style={{ width: responsiveWidth(20), height: responsiveWidth(20), padding:15}}
       />
     </View>
   );

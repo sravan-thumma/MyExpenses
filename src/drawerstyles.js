@@ -17,7 +17,7 @@ const Drawerstyles = StyleSheet.create({
     marginTop: responsiveHeight(4),
     backgroundColor: "white",
     paddingBottom:responsiveHeight(11),
-    paddingTop:responsiveHeight(0),
+    paddingTop:responsiveHeight(2),
     //borderBottomLeftRadius: -40,
     borderBottomRightRadius: responsiveWidth(15),
     top: responsiveHeight(0),
