@@ -6,12 +6,68 @@ const { StyleSheet } = React;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop:responsiveHeight(3),
+    paddingTop:responsiveHeight(2),
     justifyContent: 'center',
     alignItems: 'center',
   },
   text:{
+    fontWeight:"bold",
     fontSize: responsiveFontSize(2),
-  }
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+  },
+  floatingPlusButton: {
+    position: 'absolute',
+    bottom: 60, // Adjust as needed
+    right: 40, // Adjust as needed
+    backgroundColor: 'gray', // Change to your desired background color
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // Add other styles for your button here
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  floatingRefreshButton: {
+    position: 'absolute',
+    bottom: 140, // Adjust as needed
+    right: 40, // Adjust as needed
+    backgroundColor: 'gray', // Change to your desired background color
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // Add other styles for your button here
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
+  },
+  plusIcon: {
+    // Add styles for your plus icon image here
+  },
 });
 export default styles;

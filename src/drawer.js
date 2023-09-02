@@ -21,6 +21,7 @@ import AuthenticatedScreenHOC from "./AuthGuard/AuthenticatedScreenHOC";
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import ViewTransaction from "./TransactionOperations/ViewTransaction";
 import UpdateTransaction from "./TransactionOperations/UpdateTransaction";
+import CreateTransaction from "./TransactionOperations/CreateTransaction";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -50,7 +51,7 @@ const CustomHeader = () => {
         </TouchableOpacity>
       </View>
       <Image
-        source={require("../assets/favicon.png")} // Replace with the actual image path
+        source={require("../assets/781831.png")} // Replace with the actual image path
         style={{ width: responsiveWidth(20), height: responsiveWidth(20) }}
       />
     </View>
@@ -73,12 +74,12 @@ function Article() {
   );
 }
 
-function Logout() {
+function createTransactionfun() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Article Screen</Text>
+    <View>
+        <Text>Create Transaction</Text>
     </View>
-  );
+);
 }
 
 const HomeStack = () => (
@@ -87,6 +88,7 @@ const HomeStack = () => (
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerLeft: null }} />
           <Stack.Screen name="ViewTransaction" component={ViewTransaction} options={{headerShown:true}}  />
           <Stack.Screen name="UpdateTransaction" component={UpdateTransaction} options={{headerShown:true}} />
+          <Stack.Screen name="CreateTransaction" component={CreateTransaction} options={{ headerLeft: null }} />
     </Stack.Navigator>
   );
 
@@ -105,6 +107,12 @@ function CustomDrawerContent(props) {
             logout();
             await AsyncStorage.removeItem('userid');
             await AsyncStorage.removeItem('isLoggedIn');
+            props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'Home' }],
+              })
+            );
             }
           },
         ],
@@ -119,7 +127,7 @@ function CustomDrawerContent(props) {
       <View style={{ padding: responsiveWidth(10) }}>
         {/* Place your logo or text here */}
         <Image
-          source={require("../assets/favicon.png")}
+          source={require("../assets/781831.png")}
           style={{ width: responsiveWidth(20), height: responsiveWidth(20) }}
         />
         <Text style={{ fontSize: responsiveFontSize(2.5)}}>Home Network</Text>
@@ -147,7 +155,6 @@ export default function DrawerScreen() {
             header: () => <CustomHeader/>,
           }}
         />
-      
     </Drawer.Navigator>
   );
 }

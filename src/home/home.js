@@ -1,7 +1,7 @@
 import React, { useEffect,useState,useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation,useRoute } from '@react-navigation/native';
-import { Alert, StyleSheet, Text, View ,BackHandler, Animated, Easing} from 'react-native';
+import { Alert, StyleSheet, Text, View ,BackHandler, Animated, Easing,TouchableOpacity,Modal } from 'react-native';
 import { Image } from "react-native";
 import styles from "./style";
 import { axiosConfig,API_URL_TRANSACTIONS } from '../apiconfig';
@@ -10,13 +10,16 @@ import { ScrollView,FlatList } from 'react-native';
 import TableView from './TableView';
 import axios from 'axios';
 import CommonHeader from './CommonHeader';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { ActivityIndicator } from 'react-native';
 
 function HomeScreen() {
   const [userId, setUserId] = useState('');
   const [username,setUsername]=useState('');
   const [transactions,setTransactions]=useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   const route = useRoute(); 
   const navigation=useNavigation();
   var refresh  = route.params;
@@ -31,6 +34,14 @@ function HomeScreen() {
     //return () => backHandler.remove();
   }, [refresh]);
 
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const handleButtonPress = () => {
+    Alert.alert("Success","Create");
+  };
+
   const getuserDetails = async()=>{
     const userid=await AsyncStorage.getItem('userid');
     const username=await AsyncStorage.getItem('userName');
@@ -38,13 +49,15 @@ function HomeScreen() {
     setUsername(username);
   }
   const getUserTransactions=async()=>{
+    setIsLoading(true);
+    toggleModal();
     const userid=await AsyncStorage.getItem('userid');
     try {
       const response = await axios.get(API_URL_TRANSACTIONS+`/userid=${userid}`, axiosConfig);
       const data = await response.data;
       if (data){
           setTransactions(data);
-          Alert.alert("Success", "Fetched successful!");
+          //Alert.alert("Success", "Fetched successful!");
       }else{
           console.log(data);
           Alert.alert("Error", data.message);
@@ -67,6 +80,9 @@ function HomeScreen() {
       
       Alert.alert('Error', 'An error occurred while making the request.');
     }
+  }finally {
+    setIsLoading(false); // Loading complete (success or error)
+    toggleModal();
   }
   }
 
@@ -91,9 +107,9 @@ function HomeScreen() {
         console.log(traid);
       }
 
-      const onRefresh = () => {
+      const onRefresh = async() => {
         setRefreshing(true);
-        getUserTransactions();
+        await getUserTransactions();
         setRefreshing(false);
       };
 
@@ -101,19 +117,35 @@ function HomeScreen() {
       
       const indexcolumns=['id','date','description','repayDate','debitCard','creditCard','borrowedFromMe','borrowedByMe','status']
       const columnnames=['Id','Date','Description','RepayDate','DebitCard','CreditCard','Borrowed From Me','Borrowed By Me','Status']
-      
+      //<CommonHeader onRefresh={onRefresh} />
       return (
       <View style={styles.container}>
-        <CommonHeader onRefresh={onRefresh} />
-        <Text style={styles.text}>Welcome to the Home Screen</Text>
-        {userId && <Text style={styles.text}>User : {username}</Text>}
-        {transactions ? (
-          <ScrollView horizontal>
-            <TableView jsonData={transactions} indexcolumns={indexcolumns} columns={columnnames} onCellPress={handleCellPress}/>
-        </ScrollView>
-      ) : (
-        <Text>Loading...</Text>
-      )}
+        {userId && <Text style={styles.text}>Welcome : {username}</Text>}
+        {isLoading ? (
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={isModalVisible}
+              onRequestClose={() => {
+                toggleModal(); // Close the modal if the user presses back
+              }}
+            >
+              <View style={styles.modalContainer}>
+                <ActivityIndicator size="large" color="red" />
+              </View>
+            </Modal>
+          ) : (
+            <ScrollView horizontal>
+              <TableView jsonData={transactions} indexcolumns={indexcolumns} columns={columnnames} onCellPress={handleCellPress} />
+            </ScrollView>
+          )}
+            <TouchableOpacity onPress={onRefresh} style={styles.floatingRefreshButton}>
+              <Icon name="refresh" size={20} color="white"/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleButtonPress} style={styles.floatingPlusButton}>
+                <Icon name="plus" size={20} color="white" />
+            </TouchableOpacity>
+
       </View>
       );
 }

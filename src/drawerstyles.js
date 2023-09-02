@@ -14,7 +14,7 @@ const Drawerstyles = StyleSheet.create({
   headerContainerMain: {
     flex:1,
     alignItems: "center",
-    marginTop: responsiveHeight(0),
+    marginTop: responsiveHeight(4),
     backgroundColor: "white",
     paddingBottom:responsiveHeight(11),
     paddingTop:responsiveHeight(0),

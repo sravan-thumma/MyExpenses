@@ -16,7 +16,6 @@ import DrawerScreen from './src/drawer';
 import { AuthProvider } from './src/AuthGuard/AuthContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-
 function HomeTabs() {
   return (
     <Tab.Navigator>
@@ -38,7 +37,7 @@ export default function App() {
     <SafeAreaProvider>
       <AuthProvider>
         <NavigationContainer>
-          <DrawerScreen/>
+          <DrawerScreen/><StatusBar style="dark" translucent/>
         </NavigationContainer>
       </AuthProvider>
     </SafeAreaProvider>
