@@ -66,7 +66,7 @@ function ViewTransaction(){
     
     const deleteTransaction=async()=>{
       try {
-        const response = await axios.delete(API_URL_TRANSACTIONS+`/${transactionId}`, axiosConfig);
+        const response = await axios.get(API_URL_TRANSACTIONS+`/delete/${transactionId}`, axiosConfig);
         const data = await response.data;
         if (data){
             console.log(data);

@@ -21,6 +21,9 @@ function UpdateTransaction(){
     const [updatedData, setUpdatedData] = useState(transactionData);
     const [selectedStatus, setSelectedStatus] = useState(updatedData.status);
     const initialDate = new Date(updatedData.repayDate);
+    const currentDate=new Date();
+    const minDate=new Date(currentDate);
+    minDate.setDate(currentDate.getDate() - 4);
     const [date, setDate] = useState(initialDate);  
     const [displaymode, setMode] = useState('date');
     const [isDisplayDate, setShow] = useState(false);
@@ -28,7 +31,7 @@ function UpdateTransaction(){
 
     const handleUpdateSubmit = async () => {
       const options = {
-        method: 'PUT',
+        method: 'POST',
         url: API_URL_TRANSACTIONS+`/${transactionData.id}`,
         headers: API_HEADERS,
         data: updatedData
@@ -122,7 +125,7 @@ function UpdateTransaction(){
                   is24Hour={true}
                   display="default"
                   onChange={changeSelectedDate}
-                  minimumDate={new Date()}
+                  minimumDate={minDate}
                 />
               )}
 

@@ -20,6 +20,8 @@ function CreateTransaction (){
         const [updatedData, setUpdatedData] = useState(transaction);
         const [selectedStatus, setSelectedStatus] = useState(updatedData.status);
         const initialDate = new Date();
+        const minDate=new Date(initialDate);
+        minDate.setDate(initialDate.getDate() - 10);
         const [date, setDate] = useState(initialDate);
         const [displaymode, setMode] = useState('date');
         const [isDisplayDate, setShow] = useState(false);
@@ -126,7 +128,7 @@ function CreateTransaction (){
                       is24Hour={true}
                       display="default"
                       onChange={changeSelectedDate}
-                      minimumDate={new Date()}
+                      minimumDate={minDate}
                     />
                   )}
     
