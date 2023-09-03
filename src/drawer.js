@@ -16,7 +16,12 @@ import { CommonActions } from '@react-navigation/native';
 import Svg, { Path } from 'react-native-svg';
 import Drawerstyles from "./drawerstyles";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import { useAuth } from "./AuthGuard/AuthContext";
+import AuthenticatedScreenHOC from "./AuthGuard/AuthenticatedScreenHOC";
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+import ViewTransaction from "./TransactionOperations/ViewTransaction";
+import UpdateTransaction from "./TransactionOperations/UpdateTransaction";
+import CreateTransaction from "./TransactionOperations/CreateTransaction";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -42,12 +47,12 @@ const CustomHeader = () => {
 
       <View style={Drawerstyles.headerContainer}>
         <TouchableOpacity onPress={openDrawer}>
-          <Image source={require("../assets/menu-icon.png")} style={{ width: 80, height: 80 }}></Image>
+          <Image source={require("../assets/menu-icon.png")} style={{ marginTop:responsiveWidth(3), width: responsiveWidth(15), height: responsiveWidth(10) }}></Image>
         </TouchableOpacity>
       </View>
       <Image
-        source={require("../assets/favicon.png")} // Replace with the actual image path
-        style={{ width: 80, height: 80 }}
+        source={require("../assets/781831.png")} // Replace with the actual image path
+        style={{ width: responsiveWidth(20), height: responsiveWidth(20), padding:15}}
       />
     </View>
   );
@@ -69,58 +74,68 @@ function Article() {
   );
 }
 
-function Logout() {
+function createTransactionfun() {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Article Screen</Text>
+    <View>
+        <Text>Create Transaction</Text>
     </View>
-  );
+);
 }
 
 const HomeStack = () => (
-    <Stack.Navigator screenOptions={{ headerShown: false,headerLeft: () => null}}>
+    <Stack.Navigator screenOptions={{ headerShown: false}}>
           <Stack.Screen name="Home" component={HomeScreen} options={{ headerLeft: null }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerLeft: null }} />
+          <Stack.Screen name="ViewTransaction" component={ViewTransaction} options={{headerShown:true}}  />
+          <Stack.Screen name="UpdateTransaction" component={UpdateTransaction} options={{headerShown:true}} />
+          <Stack.Screen name="CreateTransaction" component={CreateTransaction} options={{ headerLeft: null }} />
     </Stack.Navigator>
   );
 
 function CustomDrawerContent(props) {
-    const navigation = useNavigation();
-
+  const { logout } = useAuth();
+  const { isLoggedIn } = useAuth();
   const handleLogout = async () => {
-    await AsyncStorage.setItem('isLoggedIn', 'false');
-    await AsyncStorage.removeItem('userData')
+    //console.log(isLoggedIn);
+    if(isLoggedIn){
     Alert.alert(
         'Confirm Logout',
         'Are you Sure you want to Logout?',
         [
           { text: 'No', style: 'cancel' },
-          { text: 'Yes', onPress: () => 
-            navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [{ name: 'Login' }],
-            })
-          )},
+          { text: 'Yes', onPress: async() =>{
+            logout();
+            await AsyncStorage.removeItem('userid');
+            await AsyncStorage.removeItem('isLoggedIn');
+            props.navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [{ name: 'Home' }],
+              })
+            );
+            }
+          },
         ],
         { cancelable: false }
       );
+    }else{
+    }
       props.navigation.closeDrawer();
   };
   return (
     <DrawerContentScrollView {...props}>
-      <View style={{ padding: 20 }}>
+      <View style={{ padding: responsiveWidth(10) }}>
         {/* Place your logo or text here */}
         <Image
-          source={require("../assets/favicon.png")}
-          style={{ width: 80, height: 80 }}
+          source={require("../assets/781831.png")}
+          style={{ width: responsiveWidth(20), height: responsiveWidth(20) }}
         />
-        <Text>Home Network</Text>
+        <Text style={{ fontSize: responsiveFontSize(2.5)}}>Home Network</Text>
       </View>
       <DrawerItemList {...props} />
       <DrawerItem label="Help" onPress={() => alert("Link to help")} />
       <DrawerItem
-        label="Logout"
+        label={isLoggedIn ? "Logout":"Login"}
         onPress={() => handleLogout()}
       />
     </DrawerContentScrollView>
@@ -130,7 +145,7 @@ function CustomDrawerContent(props) {
 
 export default function DrawerScreen() {
   return (
-    <Drawer.Navigator initialRouteName="Drawer"
+    <Drawer.Navigator initialRouteName="Drawer" detachInactiveScreens={false}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
     >
         <Drawer.Screen
@@ -140,7 +155,10 @@ export default function DrawerScreen() {
             header: () => <CustomHeader/>,
           }}
         />
-      
     </Drawer.Navigator>
   );
 }
+
+//options={{title:'Home',
+//header: () => <CustomHeader/>,
+//}}

@@ -1,20 +1,21 @@
 const React = require("react-native");
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 const { StyleSheet } = React;
 
 const styles = StyleSheet.create({
   containerView: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
   },
   loginScreenContainer: {
     flex: 1,
   },
   logoText: {
-    fontSize: 40,
-    fontWeight: "800",
-    marginTop: 30,
-    marginBottom: 30,
+    fontSize: responsiveFontSize(4),
+    fontWeight: "500",
+    marginTop: responsiveHeight(8),
+    marginBottom: responsiveHeight(5),
     textAlign: "center",
   },
   loginFormView: {
@@ -22,27 +23,33 @@ const styles = StyleSheet.create({
     color:"#eaeaea"
   },
   loginFormTextInput: {
-    height: 43,
-    fontSize: 14,
-    borderRadius: 5,
+    height: responsiveWidth(12),
+    fontSize: responsiveFontSize(2.5),
+    borderRadius: responsiveWidth(10),
     borderWidth: 1,
     borderColor: "#eaeaea",
     backgroundColor: "#fafafa",
-    paddingLeft: 10,
-    marginTop: 5,
-    marginBottom: 5,
+    padding: responsiveWidth(2.5),
+    paddingLeft: responsiveWidth(5),
+    marginTop: responsiveWidth(1.5),
+    marginBottom: responsiveWidth(1.5),
+    width: responsiveWidth(90),
+    alignSelf: "center",
   },
   loginButton: {
     backgroundColor: "#3897f1",
-    borderRadius: 5,
-    height: 45,
-    marginTop: 10,
-    width: 350,
-    alignItems: "center"
+    borderRadius: responsiveWidth(10),
+    height: responsiveWidth(12),
+    marginTop: responsiveWidth(2.5),
+    padding: responsiveWidth(1),
+    width: responsiveWidth(30),
+    alignItems: "center",
+    alignSelf: "center",
   },
   fbLoginButton: {
-    height: 45,
-    marginTop: 10,
+    alignSelf: "center",
+    height: responsiveWidth(12),
+    marginTop: responsiveWidth(2.5),
     backgroundColor: 'transparent',
   },
 });

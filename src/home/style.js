@@ -1,49 +1,73 @@
 const React = require("react-native");
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 const { StyleSheet } = React;
 
 const styles = StyleSheet.create({
-  containerView: {
+  container: {
     flex: 1,
-    alignItems: "center"
+    paddingTop:responsiveHeight(2),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  loginScreenContainer: {
+  text:{
+    fontWeight:"bold",
+    fontSize: responsiveFontSize(2),
+  },
+  modalContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
   },
-  logoText: {
-    fontSize: 40,
-    fontWeight: "800",
-    marginTop: 150,
-    marginBottom: 30,
-    textAlign: "center",
+  floatingPlusButton: {
+    position: 'absolute',
+    bottom: 60, // Adjust as needed
+    right: 40, // Adjust as needed
+    backgroundColor: 'gray', // Change to your desired background color
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // Add other styles for your button here
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
-  loginFormView: {
-    flex: 1,
-    color:"#eaeaea"
+  floatingRefreshButton: {
+    position: 'absolute',
+    bottom: 140, // Adjust as needed
+    right: 40, // Adjust as needed
+    backgroundColor: 'gray', // Change to your desired background color
+    width: 70,
+    height: 70,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // Add other styles for your button here
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
-  loginFormTextInput: {
-    height: 43,
-    fontSize: 14,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "#eaeaea",
-    backgroundColor: "#fafafa",
-    paddingLeft: 10,
-    marginTop: 5,
-    marginBottom: 5,
-  },
-  loginButton: {
-    backgroundColor: "#3897f1",
-    borderRadius: 5,
-    height: 45,
-    marginTop: 10,
-    width: 350,
-    alignItems: "center"
-  },
-  fbLoginButton: {
-    height: 45,
-    marginTop: 10,
-    backgroundColor: 'transparent',
+  plusIcon: {
+    // Add styles for your plus icon image here
   },
 });
 export default styles;

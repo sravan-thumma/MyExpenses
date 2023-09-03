@@ -1,23 +1,26 @@
 const React = require("react-native");
+import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 const { StyleSheet } = React;
 
 const Drawerstyles = StyleSheet.create({
   headerContainer: {
+    flex:1,
     position: "absolute",
-    top: 10,
+    top: 0,
     left: 10,
     zIndex: 1,
   },
   headerContainerMain: {
+    flex:1,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: responsiveHeight(4),
     backgroundColor: "white",
-    paddingBottom:50,
-    paddingTop:50,
-    borderBottomLeftRadius: -40,
-    borderBottomRightRadius: 60,
-    bottom: -20,
+    paddingBottom:responsiveHeight(11),
+    paddingTop:responsiveHeight(2),
+    //borderBottomLeftRadius: -40,
+    borderBottomRightRadius: responsiveWidth(15),
+    top: responsiveHeight(0),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
