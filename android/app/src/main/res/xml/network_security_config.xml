@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
-    <base-config cleartextTrafficPermitted="true">
+    <!--<domain-config cleartextTrafficPermitted="false">
+            <domain includeSubdomains="true">homenetwork-dev.free.nf</domain>
+            <domain includeSubdomains="true">homenetwork-dev.free.nf</domain>
+    </domain-config>
+    <base-config cleartextTrafficPermitted="false">
         <trust-anchors>
-            <!-- Include the necessary trusted certificates here if needed -->
+            <certificates src="system" />
+            <certificates src="@raw/homenetwork" />
         </trust-anchors>
-    </base-config>
+    </base-config>-->
+    <domain-config cleartextTrafficPermitted="true">
+		<domain includeSubdomains="true">homenetwork-dev.azurewebsites.net</domain>
+		<trust-anchors>
+			<certificates src="system" />
+			<certificates src="user" />
+            <certificates src="@raw/server_cert" />
+		</trust-anchors>
+	</domain-config>
 </network-security-config>

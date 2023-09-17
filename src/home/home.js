@@ -12,6 +12,7 @@ import axios from 'axios';
 import CommonHeader from './CommonHeader';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ActivityIndicator } from 'react-native';
+import api from '../axiosConfiguration';
 
 function HomeScreen() {
   const [userId, setUserId] = useState('');
@@ -49,11 +50,53 @@ function HomeScreen() {
     setUserId(userid);
     setUsername(username);
   }
-  const getUserTransactions=async()=>{
+
+/*const getUserTransactions1=async () => {
+  setIsLoading(true);
+  toggleModal();
+  const userid=await AsyncStorage.getItem('userid');
+  await api.get(API_URL_TRANSACTIONS+`/userid=${userid}`)
+  .then(async response => {
+    console.log(response.data);
+    const data = await response.data;
+    if (data){
+        setTransactions(data);
+        //Alert.alert("Success", "Fetched successful!");
+    }else{
+        console.log(data);
+        Alert.alert("Error", data.message);
+    }
+  })
+  .catch(error => {
+    // Handle errors
+    Alert.alert('AxiosError:', error.response.status+error.response.data);
+    console.error('AxiosError:', error);
+    if (error.response) {
+      // Server responded with an error status code (e.g., 4xx, 5xx)
+      Alert.alert('AxiosError:', error.response.status+error.response.data);
+      console.error('Response Data:', error.response.data);
+      console.error('Response Status:', error.response.status);
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error('Request:', error.request);
+      Alert.alert('Request:', error.request);
+    } else {
+      // Something else happened while setting up the request
+      console.error('Error Message:', error.message);
+      Alert.alert('Error Message:', error.message);
+    }
+  }).finally(() =>{
+      setIsLoading(false); // Loading complete (success or error)
+      toggleModal();
+  });
+}*/
+
+  const getUserTransactions = async() => {
     setIsLoading(true);
     toggleModal();
     const userid=await AsyncStorage.getItem('userid');
     try {
+      setTransactions([]);
       const response = await axios.get(API_URL_TRANSACTIONS+`/userid=${userid}`, axiosConfig);
       const data = await response.data;
       if (data){
@@ -70,7 +113,7 @@ function HomeScreen() {
       console.error('Response Status:', error.response.status);
       console.error('Response Headers:', error.response.headers);
       
-      Alert.alert('Error', 'Server responded with an error.');
+      Alert.alert('Error', error.response.data.message);
     } else if (error.request) {
       // The request was made but no response was received
       console.error('Request:', error.request);
@@ -121,7 +164,7 @@ function HomeScreen() {
       //<CommonHeader onRefresh={onRefresh} />
       return (
       <View style={styles.container}>
-        {userId && <Text style={styles.text}>Welcome : {username}</Text>}
+        {userId && <Text style={styles.text}>Welcome : {username} :**: Id = {userId}</Text>}
         {isLoading ? (
             <Modal
               animationType="slide"
@@ -137,7 +180,7 @@ function HomeScreen() {
             </Modal>
           ) : (
             <ScrollView horizontal>
-              <TableView jsonData={transactions} indexcolumns={indexcolumns} columns={columnnames} onCellPress={handleCellPress} />
+              <TableView jsonData={transactions} indexcolumns={indexcolumns} columns={columnnames} onCellPress={handleCellPress} IsUsers={false} />
             </ScrollView>
           )}
             <TouchableOpacity onPress={onRefresh} style={styles.floatingRefreshButton}>

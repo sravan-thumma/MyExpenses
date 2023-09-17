@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text:{
+    color:"green",
     fontWeight:"bold",
     fontSize: responsiveFontSize(2),
   },
