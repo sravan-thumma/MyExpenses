@@ -4,10 +4,13 @@ import { Alert } from 'react-native';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 
 
-const TableView = ({ jsonData,columns,indexcolumns,onCellPress }) => {
+const TableView = ({ jsonData,columns,indexcolumns,onCellPress,IsUsers }) => {
   //console.log(jsonData)
   //console.log(columns);
   if (!jsonData || jsonData.length === 0) {
+    if(IsUsers){
+      return;
+    }
     return <Text>No data available.</Text>;
   }
 
@@ -31,7 +34,11 @@ const TableView = ({ jsonData,columns,indexcolumns,onCellPress }) => {
                 onPress={() => {
                   //console.log(row['status']);
                   if (columnIndex === 0) {
-                    onCellPress(row[column]);
+                    if(IsUsers){
+                      onCellPress(row[column],row.username);
+                    }else{
+                      onCellPress(row[column]);
+                    }
                     //Alert.alert(row[column]);
                   }
                 }

@@ -15,6 +15,46 @@ import HomeScreen from './src/home/home';
 import DrawerScreen from './src/drawer';
 import { AuthProvider } from './src/AuthGuard/AuthContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import HeaderNav from './src/Header';
+import React, { useEffect } from 'react';
+import {  TouchableOpacity } from 'react-native';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { BackHandler } from 'react-native';
+
+
+const authenticateWithBiometrics = async () => {
+  const hasBiometrics = await LocalAuthentication.hasHardwareAsync();
+
+  if (hasBiometrics) {
+    const isBiometricEnabled = await LocalAuthentication.isEnrolledAsync();
+
+    if (isBiometricEnabled) {
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Authenticate with your biometrics',
+      });
+
+      if (result.success) {
+        // Biometric authentication succeeded
+        console.log('Biometric authentication succeeded');
+        // You can navigate to your main app content here
+      } else {
+        // Biometric authentication failed
+        console.log('Biometric authentication failed');
+        BackHandler.exitApp();
+        // Handle the failure or show an error message
+      }
+    } else {
+      // Biometrics is not enabled on the device
+      console.log('Biometrics is not enabled on the device');
+      // Handle this case, e.g., by providing a different authentication method
+    }
+  } else {
+    // Biometrics hardware is not available on the device
+    console.log('Biometrics hardware is not available on the device');
+    // Handle this case, e.g., by providing a different authentication method
+  }
+};
+
 
 function HomeTabs() {
   return (
@@ -33,11 +73,14 @@ function HomeTabs() {
 
 export default function App() {
   const Tab = createBottomTabNavigator();
+  useEffect(() => {
+    authenticateWithBiometrics();
+  }, []);
   return (
     <SafeAreaProvider>
       <AuthProvider>
         <NavigationContainer>
-          <DrawerScreen/><StatusBar style="dark" translucent/>
+          <HeaderNav/><StatusBar style="dark" translucent/>
         </NavigationContainer>
       </AuthProvider>
     </SafeAreaProvider>
