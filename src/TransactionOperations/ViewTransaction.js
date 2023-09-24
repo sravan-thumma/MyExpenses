@@ -7,7 +7,8 @@ import { axiosConfig,API_URL_TRANSACTIONS } from '../apiconfig';
 import AuthenticatedScreenHOC from '../AuthGuard/AuthenticatedScreenHOC';
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
-import Icon from 'react-native-vector-icons/FontAwesome'; 
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { responsiveWidth } from 'react-native-responsive-dimensions';
 
 function ViewTransaction(){
     const route = useRoute(); 
@@ -71,6 +72,7 @@ function ViewTransaction(){
         if (data){
             console.log(data);
             setLoading(false);
+            Alert.alert("Success","Delete Successful");
             navigation.navigate("Home",{ refresh: true });
         }else{
             console.log(data);
@@ -117,7 +119,13 @@ function ViewTransaction(){
             {loading ? (
             <ActivityIndicator size="large" color="red"/>
             ) : (
-            <View style={styles.dataContainer}>{renderDataFields()}
+            <View style={styles.dataContainer}>
+              <Image 
+              source={require("../../assets/781902.png")} // Replace with the actual image path
+              style={{ width: responsiveWidth(20), height: responsiveWidth(20), padding:15,marginLeft:responsiveWidth(23)}}
+              />
+            <Text style={{color:"red",fontWeight:'bold',padding:responsiveWidth(1)}}>(-)Debit <Text style={{color:"green"}}>(+)Credit</Text></Text>
+              <View>{renderDataFields()}
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.Updatebutton} onPress={handleUpdate}>
                         <Icon name="pencil" size={20} color="white" />
@@ -128,6 +136,7 @@ function ViewTransaction(){
                         <Text style={styles.buttonText}>Delete</Text>
                     </TouchableOpacity>
                 </View>
+              </View>
             </View>
             )}
       </View>

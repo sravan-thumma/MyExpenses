@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Picker} from '@react-native-picker/picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { responsiveFontSize, responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
+
 function CreateTransaction (){
         const route=useRoute();
         var  userid  = route.params.userid;
@@ -44,6 +45,7 @@ function CreateTransaction (){
             const data = response.data;
             if (data){
               setTransaction(data);
+              Alert.alert("Success","Create Transaction Successful");
               navigation.navigate("Home",{ refresh: true });
           }else{
               console.log("Data:"+data);
@@ -90,11 +92,20 @@ function CreateTransaction (){
             }
           };
     
+/*          <Image 
+                  source={require("../../assets/781902.png")} // Replace with the actual image path
+                  style={{ width: responsiveWidth(20), height: responsiveWidth(20), padding:15,marginLeft:responsiveWidth(23)}}
+            />  */
+
         return(
-          <ScrollView>
+          <ScrollView keyboardShouldPersistTaps='handled'>
             <View style={styles.container}>
                 <View style={styles.dataContainer}>
-                <Text style={{color:"red"}}>(-)Debit (+)Credit</Text>
+                <Image 
+                  source={require("../../assets/781902.png")} // Replace with the actual image path
+                  style={{ width: responsiveWidth(20), height: responsiveWidth(20), padding:5,marginLeft:responsiveWidth(23)}}
+                />
+                <Text style={{color:"red",fontWeight:'bold',padding:responsiveWidth(1)}}>(-)Debit <Text style={{color:"green"}}>(+)Credit</Text></Text>
                 <Text style={styles.label}>Description:</Text>
                 <TextInput
                     style={styles.textInput}
@@ -103,7 +114,7 @@ function CreateTransaction (){
                 />
                 <Text style={styles.label}>Date:</Text>
                 <View style={{
-                  flex:1,
+                  //flex:1,
                   flexDirection: "row",
                   flexWrap: "wrap",
                 }}>
@@ -176,12 +187,11 @@ function CreateTransaction (){
                     <Picker.Item label="Pending" value="Pending" />
                 </Picker>
                 
-                <View style={styles.buttonContainer}>
+                
                         <TouchableOpacity style={styles.Updatebutton} onPress={handleCreateSubmit}>
-                            <Icon name="check" size={20} color="white" />
+                            <Icon name="check" size={responsiveWidth(6)} color="white" />
                             <Text style={styles.buttonText}>Create</Text>
                         </TouchableOpacity>
-                    </View>
                 </View>
     
             </View>
@@ -194,34 +204,39 @@ function CreateTransaction (){
           backgroundColor:'gray',
           justifyContent: 'center',
           alignItems: 'center',
+          height:responsiveHeight(93),
+          width: responsiveWidth(100),
         },
         label: {
-            fontSize: 16,
+          fontSize: responsiveFontSize(2),
             fontWeight: 'bold',
         },
         textInput: {
-            borderWidth: 1,
-            borderColor: 'gray',
-            padding: 10,
-            borderRadius: 5,
+          borderWidth: responsiveWidth(0.3),
+          borderColor: 'gray',
+          padding: responsiveWidth(2),
+          borderRadius: responsiveWidth(3),
         },
         textInputCalander: {
           width: responsiveWidth(50),
-          borderWidth: 1,
+          borderWidth: responsiveWidth(0.3),
           borderColor: 'gray',
-          padding: 10,
-          borderRadius: 5,
+          padding: responsiveWidth(3),
+          borderRadius: responsiveWidth(3),
       },
         dataContainer: {
           backgroundColor: '#f0f0f0',
-          borderRadius: 10,
-          padding: 20,
-          width: '80%',
+          borderRadius: responsiveWidth(5),
+          padding: responsiveHeight(3),
+          height: responsiveHeight(87),
+          width: responsiveHeight(40),
+          marginTop:responsiveHeight(10),
+          marginBottom:responsiveHeight(15)
         },
         fieldContainer: {
           flexDirection: 'row',
           justifyContent: 'space-between',
-          marginBottom: 10,
+          marginBottom: responsiveHeight(10),
         },
         fieldName: {
           fontWeight: 'bold',
@@ -231,14 +246,18 @@ function CreateTransaction (){
         buttonContainer: {
             flexDirection: 'row',
             justifyContent: 'space-around',
-            marginTop: 20,
+            marginBottom: responsiveWidth(10),
           },
-        Updatebutton: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: 'blue',
-            padding: 10,
-            borderRadius: 5,
+          Updatebutton: {
+            marginLeft: responsiveWidth(20),
+              width:responsiveWidth(27),
+              height: responsiveWidth(12),
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: 'blue',
+              marginTop:responsiveWidth(1),
+              padding: responsiveWidth(3),
+              borderRadius: responsiveWidth(2),
           },
         Deletebutton: {
             flexDirection: 'row',
@@ -249,7 +268,7 @@ function CreateTransaction (){
           },
           buttonText: {
             color: 'white',
-            marginLeft: 5,
+            marginLeft: responsiveWidth(2),
           },
 };
 export default AuthenticatedScreenHOC(CreateTransaction);

@@ -109,8 +109,8 @@ const onLoginPress = async () => {
             await AsyncStorage.setItem('userName', data.username);
             await AsyncStorage.setItem('role', data.role);
             Alert.alert("Success", "Authentication successful!");
-            await login();
             await AsyncStorage.setItem('isLoggedIn', 'true');
+            await login();
         } else {
             console.log("Data:" + data);
             Alert.alert("Error", data.message);
@@ -136,6 +136,7 @@ const onLoginPress = async () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
+          <Image source={require('../../assets/781831.png')} style={{width: 120, height: 120,position:'relative',margin:10}} />
             <Text style={styles.logoText}>Home Network</Text>
             <TextInput
               placeholder="Username"

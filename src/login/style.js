@@ -14,13 +14,15 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: responsiveFontSize(4),
     fontWeight: "500",
-    marginTop: responsiveHeight(8),
+    marginTop: responsiveHeight(5),
     marginBottom: responsiveHeight(5),
     textAlign: "center",
   },
   loginFormView: {
     flex: 1,
-    color:"#eaeaea"
+    color:"#eaeaea",
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   loginFormTextInput: {
     height: responsiveWidth(12),

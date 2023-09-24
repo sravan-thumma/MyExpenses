@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
   },
   floatingPlusButton: {
     position: 'absolute',
-    bottom: 60, // Adjust as needed
-    right: 40, // Adjust as needed
-    backgroundColor: 'gray', // Change to your desired background color
-    width: 70,
-    height: 70,
+    bottom: 50, // Adjust as needed
+    right: 30, // Adjust as needed
+    backgroundColor: 'black', // Change to your desired background color
+    width: 60,
+    height: 60,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
@@ -46,11 +46,11 @@ const styles = StyleSheet.create({
   },
   floatingRefreshButton: {
     position: 'absolute',
-    bottom: 140, // Adjust as needed
-    right: 40, // Adjust as needed
-    backgroundColor: 'gray', // Change to your desired background color
-    width: 70,
-    height: 70,
+    bottom: 120, // Adjust as needed
+    right: 30, // Adjust as needed
+    backgroundColor: 'black', // Change to your desired background color
+    width: 60,
+    height: 60,
     borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
