@@ -19,6 +19,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../AuthGuard/AuthContext";
 import axios from 'axios';
 import api from "../axiosConfiguration";
+import {TouchableOpacity } from "react-native";
+import { CommonActions } from '@react-navigation/native';
 
 export default function LoginScreen(){
   const [username, setUsername] = useState("");
@@ -38,8 +40,8 @@ export default function LoginScreen(){
     return true; // Prevent default back action
   };
   React.useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => backHandler.remove();
+    //const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    //return () => backHandler.remove();
   }, []);
 
 /*const onLoginPress1 = async () =>{
@@ -86,6 +88,10 @@ export default function LoginScreen(){
       console.log("Finally");
   });
 }*/
+
+const handleCreateUser = async () => {
+  navigation.navigate("CreateUser");
+}
 
 const onLoginPress = async () => {
     if (!username || !password) {
@@ -155,6 +161,11 @@ const onLoginPress = async () => {
               buttonStyle={styles.loginButton}
               onPress={() => onLoginPress()}
               title="Login"
+            />
+             <Button
+              buttonStyle={styles.createButton}
+              onPress={() => handleCreateUser()}
+              title="Create User"
             />
           </View>
         </View>

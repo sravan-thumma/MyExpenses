@@ -15,6 +15,7 @@ function ViewTransaction(){
     var transactionId = route.params.traid;
     const [loading, setLoading] = useState(true);
     const [transaction, setTransaction] = useState(null);
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
     const navigation=useNavigation();
     useEffect(() => {
         getTransactionDetails(transactionId); // Replace with your API call function
@@ -66,6 +67,7 @@ function ViewTransaction(){
     }
     
     const deleteTransaction=async()=>{
+      setButtonDisabled(true);
       try {
         const response = await axios.get(API_URL_TRANSACTIONS+`/delete/${transactionId}`, axiosConfig);
         const data = await response.data;
@@ -127,11 +129,11 @@ function ViewTransaction(){
             <Text style={{color:"red",fontWeight:'bold',padding:responsiveWidth(1)}}>(-)Debit <Text style={{color:"green"}}>(+)Credit</Text></Text>
               <View>{renderDataFields()}
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.Updatebutton} onPress={handleUpdate}>
+                    <TouchableOpacity style={styles.Updatebutton} onPress={handleUpdate} disabled={isButtonDisabled}>
                         <Icon name="pencil" size={20} color="white" />
                         <Text style={styles.buttonText}>Update</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.Deletebutton} onPress={handleDelete}>
+                    <TouchableOpacity style={styles.Deletebutton} onPress={handleDelete} disabled={isButtonDisabled}>
                         <Icon name="trash" size={20} color="white" />
                         <Text style={styles.buttonText}>Delete</Text>
                     </TouchableOpacity>

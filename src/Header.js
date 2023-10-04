@@ -23,6 +23,7 @@ import ViewTransaction from "./TransactionOperations/ViewTransaction";
 import UpdateTransaction from "./TransactionOperations/UpdateTransaction";
 import CreateTransaction from "./TransactionOperations/CreateTransaction";
 import LogoutScreen from "./login/logout";
+import CreateUser from "./UserOperations/CreateUser"; 
 import GuardScreen from "./AuthGuard/GuardScreen";
 import { useEffect,useState } from "react";
 
@@ -138,6 +139,14 @@ function HeaderNav() {
       options={{
         //headerLeft: null,
         //header: () => <CustomHeader />, // Render CustomHeader as the header
+      }}
+    />
+    <Stack.Screen
+      name="CreateUser"
+      component={CreateUser}
+      options={{
+        //headerLeft: null,
+        //header: () => <GuardCustomHeader/>, // Render CustomHeader as the header
       }}
     />
   </Stack.Navigator>

@@ -48,6 +48,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
   },
+  createButton: {
+    backgroundColor: "green",
+    borderRadius: responsiveWidth(10),
+    height: responsiveWidth(12),
+    marginTop: responsiveWidth(2.5),
+    padding: responsiveWidth(1),
+    width: responsiveWidth(30),
+    alignItems: "center",
+    alignSelf: "center",
+  },
   fbLoginButton: {
     alignSelf: "center",
     height: responsiveWidth(12),

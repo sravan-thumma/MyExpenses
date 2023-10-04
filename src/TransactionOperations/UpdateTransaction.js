@@ -28,8 +28,10 @@ function UpdateTransaction(){
     const [displaymode, setMode] = useState('date');
     const [isDisplayDate, setShow] = useState(false);
     const [repayDate, setRepayDate] = useState(initialDate.toISOString().split('T')[0]);
+    const [isButtonDisabled, setButtonDisabled] = useState(false);
 
     const handleUpdateSubmit = async () => {
+      setButtonDisabled(true);
       const options = {
         method: 'POST',
         url: API_URL_TRANSACTIONS+`/${transactionData.id}`,
@@ -178,7 +180,7 @@ function UpdateTransaction(){
             </Picker>
             
             
-                    <TouchableOpacity style={styles.Updatebutton} onPress={handleUpdateSubmit}>
+                    <TouchableOpacity style={styles.Updatebutton} onPress={handleUpdateSubmit} disabled={isButtonDisabled}>
                         <Icon name="check" size={responsiveWidth(6)} color="white" />
                         <Text style={styles.buttonText}>Update</Text>
                     </TouchableOpacity>

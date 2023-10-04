@@ -27,6 +27,7 @@ function CreateTransaction (){
         const [displaymode, setMode] = useState('date');
         const [isDisplayDate, setShow] = useState(false);
         const [TDate, setTDate] = useState(initialDate.toISOString().split('T')[0]);
+        const [isButtonDisabled, setButtonDisabled] = useState(false);
 
         const getuserDetails = async()=>{
             setUpdatedData({ ...updatedData, userId: 1 });
@@ -34,6 +35,7 @@ function CreateTransaction (){
         }
 
         const handleCreateSubmit = async () => {
+          setButtonDisabled(true);
           const options = {
             method: 'POST',
             url: API_URL_TRANSACTIONS,
@@ -188,7 +190,7 @@ function CreateTransaction (){
                 </Picker>
                 
                 
-                        <TouchableOpacity style={styles.Updatebutton} onPress={handleCreateSubmit}>
+                        <TouchableOpacity style={styles.Updatebutton} onPress={handleCreateSubmit} disabled={isButtonDisabled}>
                             <Icon name="check" size={responsiveWidth(6)} color="white" />
                             <Text style={styles.buttonText}>Create</Text>
                         </TouchableOpacity>

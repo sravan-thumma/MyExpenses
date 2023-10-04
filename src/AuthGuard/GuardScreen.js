@@ -190,7 +190,7 @@ const handleLogout = async () => {
             <Text style={{color:"red",fontWeight:"bold",fontSize:20}}>Logout ? {username}</Text>
           ):(<Text></Text>)}
   </TouchableOpacity>
-        <Text style={{ marginTop: 20, fontSize: 14,fontWeight:'bold' }}>Version 2.1.2</Text>
+        <Text style={{ marginTop: 20, fontSize: 14,fontWeight:'bold' }}>Version 2.1.3</Text>
         <Text style={{ fontSize: 12, color: 'gray',marginBottom:10 }}>© 2023 Sravan</Text>
   
     </View>
