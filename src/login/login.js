@@ -19,6 +19,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../AuthGuard/AuthContext";
 import axios from 'axios';
 import api from "../axiosConfiguration";
+import {TouchableOpacity } from "react-native";
+import { CommonActions } from '@react-navigation/native';
 
 export default function LoginScreen(){
   const [username, setUsername] = useState("");
@@ -38,8 +40,8 @@ export default function LoginScreen(){
     return true; // Prevent default back action
   };
   React.useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
-    return () => backHandler.remove();
+    //const backHandler = BackHandler.addEventListener('hardwareBackPress', handleBackPress);
+    //return () => backHandler.remove();
   }, []);
 
 /*const onLoginPress1 = async () =>{
@@ -87,6 +89,10 @@ export default function LoginScreen(){
   });
 }*/
 
+const handleCreateUser = async () => {
+  navigation.navigate("CreateUser");
+}
+
 const onLoginPress = async () => {
     if (!username || !password) {
         Alert.alert("Error", "Both username and password are required.");
@@ -109,8 +115,8 @@ const onLoginPress = async () => {
             await AsyncStorage.setItem('userName', data.username);
             await AsyncStorage.setItem('role', data.role);
             Alert.alert("Success", "Authentication successful!");
-            await login();
             await AsyncStorage.setItem('isLoggedIn', 'true');
+            await login();
         } else {
             console.log("Data:" + data);
             Alert.alert("Error", data.message);
@@ -136,6 +142,7 @@ const onLoginPress = async () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
+          <Image source={require('../../assets/781831.png')} style={{width: 120, height: 120,position:'relative',margin:10}} />
             <Text style={styles.logoText}>Home Network</Text>
             <TextInput
               placeholder="Username"
@@ -154,6 +161,11 @@ const onLoginPress = async () => {
               buttonStyle={styles.loginButton}
               onPress={() => onLoginPress()}
               title="Login"
+            />
+             <Button
+              buttonStyle={styles.createButton}
+              onPress={() => handleCreateUser()}
+              title="Create User"
             />
           </View>
         </View>

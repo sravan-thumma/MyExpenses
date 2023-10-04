@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: responsiveWidth(0.2),
     marginRight: responsiveWidth(0.5),
     borderColor: 'white',
-    backgroundColor:'gray',
+    backgroundColor:'black',
     //minWidth: responsiveWidth(20),
     height:responsiveWidth(18),
     width:responsiveWidth(35),

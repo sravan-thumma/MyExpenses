@@ -14,13 +14,15 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: responsiveFontSize(4),
     fontWeight: "500",
-    marginTop: responsiveHeight(8),
+    marginTop: responsiveHeight(5),
     marginBottom: responsiveHeight(5),
     textAlign: "center",
   },
   loginFormView: {
     flex: 1,
-    color:"#eaeaea"
+    color:"#eaeaea",
+    justifyContent: 'center', 
+    alignItems: 'center'
   },
   loginFormTextInput: {
     height: responsiveWidth(12),
@@ -38,6 +40,16 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     backgroundColor: "#3897f1",
+    borderRadius: responsiveWidth(10),
+    height: responsiveWidth(12),
+    marginTop: responsiveWidth(2.5),
+    padding: responsiveWidth(1),
+    width: responsiveWidth(30),
+    alignItems: "center",
+    alignSelf: "center",
+  },
+  createButton: {
+    backgroundColor: "green",
     borderRadius: responsiveWidth(10),
     height: responsiveWidth(12),
     marginTop: responsiveWidth(2.5),

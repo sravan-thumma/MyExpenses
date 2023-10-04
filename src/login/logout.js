@@ -1,5 +1,5 @@
-import { View,Text,Alert,TouchableOpacity } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View,Text,Alert,TouchableOpacity,Image } from "react-native";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
@@ -9,8 +9,9 @@ import axios from "axios";
 import React, { useEffect,useState,useRef } from 'react';
 import {ScrollView} from "react-native";
 import TableView from "../home/TableView";
+import AuthenticatedScreenHOC from '../AuthGuard/AuthenticatedScreenHOC';
 
-export default function LogoutScreen(){
+function LogoutScreen(){
   const { logout } = useAuth();
   const { isLoggedIn } = useAuth();
   const navigation=useNavigation();
@@ -104,7 +105,7 @@ export default function LogoutScreen(){
             navigation.dispatch(
               CommonActions.reset({
                 index: 0,
-                routes: [{ name: 'Home' }],
+                routes: [{ name: 'Guard' }],
               })
             );
             }
@@ -138,10 +139,13 @@ export default function LogoutScreen(){
           right: 0,
           alignItems: 'center',
           padding: 10,
-          backgroundColor: 'lightgray',
+          backgroundColor: 'white',
+          borderWidth:2
         }} onPress={ handleLogout}>
-                <Icon name="check" size={20} color="green" />
-                <Text style={{color:"green",fontWeight:"bold"}} >Logout</Text>
+                <Icon name="shield-lock" size={40} color="black">
+                
+                </Icon>
+                <Text style={{color:"black",fontWeight:"bold",fontSize:15}}> Logout </Text>
             </TouchableOpacity>
           ):(
             <TouchableOpacity style={{
@@ -161,3 +165,4 @@ export default function LogoutScreen(){
         </View>
     );
 }
+export default AuthenticatedScreenHOC(LogoutScreen);
