@@ -13,12 +13,9 @@
 </ul> 
 
 ## BUILD PREVIEWS
-<ul>
-  <li>ANDROID</li>
-  <li>IOS</li>
-</ul> 
+IOS:<br><br>
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/U02Tb8MRV9w/0.jpg)](https://www.youtube.com/watch?v=U02Tb8MRV9w)
+<br>Android :<br><br>
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/KSltTXQwDIY/0.jpg)](https://www.youtube.com/watch?v=KSltTXQwDIY)
 
-https://github.com/sravan-thumma/MyExpenses/assets/60563528/cbe5236a-9f89-4830-a9f4-8cf5b84be457
-
-https://github.com/sravan-thumma/MyExpenses/assets/60563528/9fc556b0-dc06-4ffc-b503-38db2965de15
 
