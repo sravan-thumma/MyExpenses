@@ -13,6 +13,13 @@
 </ul> 
 
 ## BUILD PREVIEWS
+<ul>
+  <li>IOS</li>
+  https://www.youtube.com/watch?v=U02Tb8MRV9w
+  <li>Android</li>
+  https://www.youtube.com/watch?v=KSltTXQwDIY
+</ul> <br>
+
 IOS:<br><br>
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/U02Tb8MRV9w/0.jpg)](https://www.youtube.com/watch?v=U02Tb8MRV9w)
 <br>Android :<br><br>
